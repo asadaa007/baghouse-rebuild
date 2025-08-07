@@ -1,25 +1,27 @@
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const footerLinks = [
+  const mainLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Baghouse Services', href: '/services' },
-    { name: 'Sheet Metal & Ducting', href: '/services' },
-    { name: 'Consulting', href: '/services' },
-    { name: 'Spare Parts', href: '/services' },
-    { name: 'BaghouseFAQ', href: '/baghouse' },
+    { name: 'Services', href: '/services' },
     { name: 'Contact', href: '/contact' },
     { name: 'Careers', href: '/careers' },
   ];
 
-  const services = [
-    'Baghouse Field Services',
-    'Filter Change-outs',
-    'Mechanical Repairs',
-    'Sheet Metal & Ducting',
-    'Consulting',
-    'Spare Parts'
+  const baghouseLinks = [
+    { name: 'Baghouse FAQ', href: '/baghouse/faq' },
+    { name: 'What is a Baghouse?', href: '/baghouse/what-is-baghouse' },
+    { name: 'Baghouse Cleaning Methods', href: '/baghouse/cleaning-methods' },
+    { name: 'Baghouse Field Services', href: '/baghouse/field-services' },
   ];
+
+  const serviceLinks = [
+    { name: 'Sheet Metal & Ducting', href: '/services/sheet-metal-ducting' },
+    { name: 'Consulting', href: '/services/consulting' },
+    { name: 'Spare Parts', href: '/services/spare-parts' },
+  ];
+
+
 
   const handleCallClick = () => {
     window.location.href = 'tel:1-905-934-1211';
@@ -29,7 +31,7 @@ const Footer = () => {
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
           
           {/* Company Info */}
           <div className="lg:col-span-2">
@@ -84,11 +86,27 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Main Links */}
           <div>
             <h3 className="text-xl font-bold mb-6 text-white">Quick Links</h3>
             <div className="space-y-3">
-              {footerLinks.map((link) => (
+              {mainLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="block text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Baghouse Links */}
+          <div>
+            <h3 className="text-xl font-bold mb-6 text-white">Baghouse</h3>
+            <div className="space-y-3">
+              {baghouseLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -102,15 +120,15 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h3 className="text-xl font-bold mb-6 text-white">Our Services</h3>
+            <h3 className="text-xl font-bold mb-6 text-white">Services</h3>
             <div className="space-y-3">
-              {services.map((service) => (
+              {serviceLinks.map((link) => (
                 <Link
-                  key={service}
-                  to="/services"
+                  key={link.name}
+                  to={link.href}
                   className="block text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform"
                 >
-                  {service}
+                  {link.name}
                 </Link>
               ))}
             </div>
