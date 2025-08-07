@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import HeroSmall from '../components/sections/HeroSmall';
 import WaveDivider from '../components/ui/WaveDivider';
 
