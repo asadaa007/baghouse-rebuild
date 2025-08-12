@@ -1,31 +1,74 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getHomePageData } from '../../services/homePageService';
 
 const Footer = () => {
-  const mainLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '/services' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Careers', href: '/careers' },
-  ];
+  const [footerData, setFooterData] = useState({
+    companyDescription: "Professional baghouse solutions and industrial services. We provide cutting-edge filtration systems that keep your workplace clean, safe, and compliant with environmental regulations.",
+    location: "St. Catharines, Ontario, Canada",
+    phoneNumber: "1-905-934-1211",
+    mainLinks: [
+      { name: 'Home', href: '/' },
+      { name: 'Services', href: '/services' },
+      { name: 'Contact', href: '/contact' },
+      { name: 'Careers', href: '/careers' },
+    ],
+    baghouseLinks: [
+      { name: 'Baghouse FAQ', href: '/baghouse/faq' },
+      { name: 'What is a Baghouse?', href: '/baghouse/what-is-baghouse' },
+      { name: 'Baghouse Cleaning Methods', href: '/baghouse/cleaning-methods' },
+      { name: 'Baghouse Field Services', href: '/baghouse/field-services' },
+    ],
+    serviceLinks: [
+      { name: 'Sheet Metal & Ducting', href: '/services/sheet-metal-ducting' },
+      { name: 'Consulting', href: '/services/consulting' },
+      { name: 'Spare Parts', href: '/services/spare-parts' },
+    ],
+    copyright: "© 2017 Frost Emission Performance Technologies Inc. All Rights Reserved."
+  });
+  const [loading, setLoading] = useState(true);
 
-  const baghouseLinks = [
-    { name: 'Baghouse FAQ', href: '/baghouse/faq' },
-    { name: 'What is a Baghouse?', href: '/baghouse/what-is-baghouse' },
-    { name: 'Baghouse Cleaning Methods', href: '/baghouse/cleaning-methods' },
-    { name: 'Baghouse Field Services', href: '/baghouse/field-services' },
-  ];
+  // Load footer data from Firebase
+  useEffect(() => {
+    const loadFooterData = async () => {
+      try {
+        setLoading(true);
+        const data = await getHomePageData();
+        if (data && data.footer) {
+          setFooterData(data.footer);
+        }
+      } catch (error) {
+        console.error('Error loading footer data:', error);
+        // Keep using default data if there's an error
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const serviceLinks = [
-    { name: 'Sheet Metal & Ducting', href: '/services/sheet-metal-ducting' },
-    { name: 'Consulting', href: '/services/consulting' },
-    { name: 'Spare Parts', href: '/services/spare-parts' },
-  ];
-
-
+    loadFooterData();
+  }, []);
 
   const handleCallClick = () => {
-    window.location.href = 'tel:1-905-934-1211';
+    window.location.href = `tel:${footerData.phoneNumber}`;
   };
+
+  if (loading) {
+    return (
+      <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+        <div className="container mx-auto px-4 py-16">
+          <div className="flex items-center justify-center h-32">
+            <div className="text-center">
+              <svg className="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <p className="text-gray-400">Loading footer...</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
@@ -47,8 +90,7 @@ const Footer = () => {
                 />
               </div>
               <p className="text-gray-300 leading-relaxed max-w-md">
-                Professional baghouse solutions and industrial services. We provide cutting-edge filtration systems 
-                that keep your workplace clean, safe, and compliant with environmental regulations.
+                {footerData.companyDescription}
               </p>
             </div>
             
@@ -63,7 +105,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-gray-300 text-sm">Location</p>
-                  <p className="font-medium">St. Catharines, Ontario, Canada</p>
+                  <p className="font-medium">{footerData.location}</p>
                 </div>
               </div>
               
@@ -79,7 +121,7 @@ const Footer = () => {
                     onClick={handleCallClick}
                     className="font-bold text-lg text-green-400 hover:text-green-300 transition-colors duration-200"
                   >
-                    1-905-934-1211
+                    {footerData.phoneNumber}
                   </button>
                 </div>
               </div>
@@ -90,7 +132,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-6 text-white">Quick Links</h3>
             <div className="space-y-3">
-              {mainLinks.map((link) => (
+              {footerData.mainLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -106,7 +148,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-6 text-white">Baghouse</h3>
             <div className="space-y-3">
-              {baghouseLinks.map((link) => (
+              {footerData.baghouseLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -122,7 +164,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-6 text-white">Services</h3>
             <div className="space-y-3">
-              {serviceLinks.map((link) => (
+              {footerData.serviceLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -142,7 +184,7 @@ const Footer = () => {
           <div className="text-center">
             {/* Copyright */}
             <div className="text-gray-400 text-sm">
-              <p>© 2017 Frost Emission Performance Technologies Inc. All Rights Reserved.</p>
+              <p>{footerData.copyright}</p>
             </div>
           </div>
         </div>

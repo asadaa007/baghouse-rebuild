@@ -1,45 +1,138 @@
 import { useState, useEffect } from 'react';
+import { getHomePageData } from '../../services/homePageService';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [heroData, setHeroData] = useState<{
+    slides: Array<{
+      id: number;
+      title: string;
+      subtitle: string;
+      image: string;
+      description: string;
+    }>;
+    autoSlideInterval: number;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const slides = [
-    {
-      id: 1,
-      title: "Filter Change-outs",
-      subtitle: "Partial or Complete",
-      image: "https://baghouse.net/Images/top_page/slideshow/filter_replacement-envelope_style2.jpg",
-      description: "Professional filter replacement services for industrial baghouse systems"
-    },
-    {
-      id: 2,
-      title: "Ducting",
-      subtitle: "Supply build and install",
-      image: "https://baghouse.net/Images/top_page/slideshow/sheetmetal.jpg",
-      description: "Comprehensive maintenance solutions to keep your systems running efficiently"
-    },
-    {
-      id: 3,
-      title: "Spare Parts",
-      subtitle: "Pulsshaker reverse air",
-      image: "https://baghouse.net/Images/top_page/slideshow/spare_parts.jpg",
-      description: "Tailored baghouse solutions for your specific industrial requirements"
-    },
-    {
-      id: 4,
-      title: "Consulting",
-      subtitle: "Process review and design",
-      image: "https://baghouse.net/Images/top_page/slideshow/design_concept.jpg",
-      description: "Tailored baghouse solutions for your specific industrial requirements"
-    }
-  ];
-
+  // Load hero data from Firebase
   useEffect(() => {
+    const loadHeroData = async () => {
+      try {
+        const data = await getHomePageData();
+        if (data) {
+          setHeroData(data.hero);
+        } else {
+          // Fallback to default data if no Firebase data
+          setHeroData({
+            slides: [
+              {
+                id: 1,
+                title: "Filter Change-outs",
+                subtitle: "Partial or Complete",
+                image: "https://baghouse.net/Images/top_page/slideshow/filter_replacement-envelope_style2.jpg",
+                description: "Professional filter replacement services for industrial baghouse systems"
+              },
+              {
+                id: 2,
+                title: "Ducting",
+                subtitle: "Supply build and install",
+                image: "https://baghouse.net/Images/top_page/slideshow/sheetmetal.jpg",
+                description: "Comprehensive maintenance solutions to keep your systems running efficiently"
+              },
+              {
+                id: 3,
+                title: "Spare Parts",
+                subtitle: "Pulsshaker reverse air",
+                image: "https://baghouse.net/Images/top_page/slideshow/spare_parts.jpg",
+                description: "Tailored baghouse solutions for your specific industrial requirements"
+              },
+              {
+                id: 4,
+                title: "Consulting",
+                subtitle: "Process review and design",
+                image: "https://baghouse.net/Images/top_page/slideshow/design_concept.jpg",
+                description: "Tailored baghouse solutions for your specific industrial requirements"
+              }
+            ],
+            autoSlideInterval: 5000
+          });
+        }
+      } catch (error) {
+        console.error('Error loading hero data:', error);
+        // Fallback to default data on error
+        setHeroData({
+          slides: [
+            {
+              id: 1,
+              title: "Filter Change-outs",
+              subtitle: "Partial or Complete",
+              image: "https://baghouse.net/Images/top_page/slideshow/filter_replacement-envelope_style2.jpg",
+              description: "Professional filter replacement services for industrial baghouse systems"
+            },
+            {
+              id: 2,
+              title: "Ducting",
+              subtitle: "Supply build and install",
+              image: "https://baghouse.net/Images/top_page/slideshow/sheetmetal.jpg",
+              description: "Comprehensive maintenance solutions to keep your systems running efficiently"
+            },
+            {
+              id: 3,
+              title: "Spare Parts",
+              subtitle: "Pulsshaker reverse air",
+              image: "https://baghouse.net/Images/top_page/slideshow/spare_parts.jpg",
+              description: "Tailored baghouse solutions for your specific industrial requirements"
+            },
+            {
+              id: 4,
+              title: "Consulting",
+              subtitle: "Process review and design",
+              image: "https://baghouse.net/Images/top_page/slideshow/design_concept.jpg",
+              description: "Tailored baghouse solutions for your specific industrial requirements"
+            }
+          ],
+          autoSlideInterval: 5000
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadHeroData();
+  }, []);
+
+  // Auto-slide effect - must be called before any conditional returns
+  useEffect(() => {
+    if (!heroData || !heroData.slides || heroData.slides.length === 0) {
+      return;
+    }
+
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+      setCurrentSlide((prev) => (prev + 1) % heroData.slides.length);
+    }, heroData.autoSlideInterval);
+    
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [heroData]);
+
+  // Don't render until data is loaded
+  if (loading || !heroData) {
+    return (
+      <section id="home" className="relative pt-20">
+        <div className="relative h-screen overflow-hidden bg-gray-100 flex items-center justify-center">
+          <div className="text-center">
+            <svg className="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const slides = heroData.slides;
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
