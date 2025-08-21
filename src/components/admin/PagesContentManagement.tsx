@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import HomePageEdit from './HomePageEdit';
-import FooterEdit from './FooterEdit';
+import ContactEdit from './ContactEdit';
+import CareersEdit from './CareersEdit';
+import FAQEdit from './FAQEdit';
 
 interface PageContent {
   id: string;
@@ -17,8 +19,8 @@ const PagesContentManagement = () => {
   const [pages] = useState<PageContent[]>([
     {
       id: '1',
-      title: 'Homepage Hero Section',
-      description: 'Main hero section with headline, subheadline, and call-to-action',
+      title: 'Home Page',
+      description: 'Main homepage content including hero section, services, and call-to-action',
       type: 'hero',
       page: 'Home',
       lastUpdated: '2024-01-15',
@@ -26,48 +28,30 @@ const PagesContentManagement = () => {
     },
     {
       id: '2',
-      title: 'About Us Content',
-      description: 'Company history, mission, and team information',
+      title: 'Contact Page',
+      description: 'Contact details, team information, and company details',
       type: 'section',
-      page: 'About',
+      page: 'Contact',
       lastUpdated: '2024-01-10',
       status: 'published'
     },
     {
       id: '3',
-      title: 'Services Overview',
-      description: 'Main services section with descriptions and features',
+      title: 'Careers',
+      description: 'Careers page content including hero, why work with us, and call-to-action sections',
       type: 'section',
-      page: 'Services',
-      lastUpdated: '2024-01-12',
+      page: 'Careers',
+      lastUpdated: '2024-01-03',
       status: 'published'
     },
     {
       id: '4',
-      title: 'Contact Information',
-      description: 'Contact details, address, and contact form',
+      title: 'FAQ Page',
+      description: 'Frequently asked questions with hero, FAQ items, additional help, and related topics',
       type: 'section',
-      page: 'Contact',
-      lastUpdated: '2024-01-08',
+      page: 'FAQ',
+      lastUpdated: '2024-01-20',
       status: 'published'
-    },
-    {
-      id: '5',
-      title: 'Footer Content',
-      description: 'Footer links, social media, and company information',
-      type: 'footer',
-      page: 'Global',
-      lastUpdated: '2024-01-05',
-      status: 'published'
-    },
-    {
-      id: '6',
-      title: 'Careers Page Content',
-      description: 'Job listings, company culture, and application process',
-      type: 'section',
-      page: 'Careers',
-      lastUpdated: '2024-01-03',
-      status: 'draft'
     }
   ]);
 
@@ -115,7 +99,7 @@ const PagesContentManagement = () => {
   };
 
   // If editing a specific page, show the editor
-  if (editingPage === '1') { // Homepage Hero Section
+  if (editingPage === '1') { // Home Page
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -140,7 +124,7 @@ const PagesContentManagement = () => {
     );
   }
 
-  if (editingPage === '5') { // Footer Content
+  if (editingPage === '2') { // Contact Page
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -155,12 +139,62 @@ const PagesContentManagement = () => {
               Back to Pages
             </button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Footer Content Editor</h1>
-              <p className="text-gray-600">Edit the content for your website footer</p>
+              <h1 className="text-2xl font-bold text-gray-900">Contact Page Editor</h1>
+              <p className="text-gray-600">Edit the content for your contact page</p>
             </div>
           </div>
         </div>
-        <FooterEdit />
+        <ContactEdit />
+      </div>
+    );
+  }
+
+  if (editingPage === '5') { // Careers Page
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={handleBack}
+              className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Pages
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Careers Page Editor</h1>
+              <p className="text-gray-600">Edit the content for your careers page</p>
+            </div>
+          </div>
+        </div>
+        <CareersEdit />
+      </div>
+    );
+  }
+
+  if (editingPage === '4') { // FAQ Page
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={handleBack}
+              className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Pages
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">FAQ Page Editor</h1>
+              <p className="text-gray-600">Edit the content for your FAQ page</p>
+            </div>
+          </div>
+        </div>
+        <FAQEdit />
       </div>
     );
   }

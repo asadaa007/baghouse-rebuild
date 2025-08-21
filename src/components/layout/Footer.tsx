@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getHomePageData } from '../../services/homePageService';
+import { getFooterData, type FooterData } from '../../services/headerFooterService';
 
 const Footer = () => {
-  const [footerData, setFooterData] = useState({
+  const [footerData, setFooterData] = useState<FooterData>({
     companyDescription: "Professional baghouse solutions and industrial services. We provide cutting-edge filtration systems that keep your workplace clean, safe, and compliant with environmental regulations.",
     location: "St. Catharines, Ontario, Canada",
     phoneNumber: "1-905-934-1211",
@@ -33,9 +33,9 @@ const Footer = () => {
     const loadFooterData = async () => {
       try {
         setLoading(true);
-        const data = await getHomePageData();
-        if (data && data.footer) {
-          setFooterData(data.footer);
+        const data = await getFooterData();
+        if (data) {
+          setFooterData(data);
         }
       } catch (error) {
         console.error('Error loading footer data:', error);

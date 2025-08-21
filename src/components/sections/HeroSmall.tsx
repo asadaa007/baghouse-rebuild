@@ -51,8 +51,8 @@ const HeroSmall: React.FC<HeroSmallProps> = ({
         </div>
 
         {/* Content */}
-        <div className="relative z-10 h-full flex items-center">
-          <div className="container mx-auto px-4">
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <div className="container mx-auto px-4 flex justify-center">
             <div className="max-w-4xl">
               <div className="text-center">
                 {/* Title */}

@@ -2,11 +2,18 @@ import { useState } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import AdminDashboard from '../components/admin/AdminDashboard';
-import ServicesManagement from '../components/admin/ServicesManagement';
+
 import CareersManagement from '../components/admin/CareersManagement';
 import PagesContentManagement from '../components/admin/PagesContentManagement';
 import ServicesContentManagement from '../components/admin/ServicesContentManagement';
 import ContactManagement from '../components/admin/ContactManagement';
+import HeaderFooterManagement from '../components/admin/HeaderFooterManagement';
+
+// Services Edit Pages
+import BaghouseFieldServicesEdit from '../components/admin/services/BaghouseFieldServicesEdit';
+import SheetMetalDuctingEdit from '../components/admin/services/SheetMetalDuctingEdit';
+import ConsultingEdit from '../components/admin/services/ConsultingEdit';
+import SparePartsEdit from '../components/admin/services/SparePartsEdit';
 
 const Admin = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,10 +22,11 @@ const Admin = () => {
 
   const navigation = [
     { name: 'Dashboard', href: '/react-admin', icon: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z' },
-    { name: 'Services', href: '/react-admin/services', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
+
     { name: 'Careers', href: '/react-admin/careers', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6' },
     { name: 'Pages Content', href: '/react-admin/pages-content', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z' },
     { name: 'Services Content', href: '/react-admin/services-content', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
+    { name: 'Header & Footer', href: '/react-admin/header-footer', icon: 'M4 6h16M4 12h16M4 18h16' },
     { name: 'Contact', href: '/react-admin/contact', icon: 'M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
   ];
 
@@ -149,14 +157,21 @@ const Admin = () => {
 
         {/* Page content */}
                  <main className="p-6 pt-8">
-           <Routes>
-             <Route path="/" element={<AdminDashboard />} />
-             <Route path="/services" element={<ServicesManagement />} />
-             <Route path="/careers" element={<CareersManagement />} />
-             <Route path="/pages-content" element={<PagesContentManagement />} />
-             <Route path="/services-content" element={<ServicesContentManagement />} />
-             <Route path="/contact" element={<ContactManagement />} />
-           </Routes>
+                     <Routes>
+            <Route path="/" element={<AdminDashboard />} />
+
+            <Route path="/careers" element={<CareersManagement />} />
+            <Route path="/pages-content" element={<PagesContentManagement />} />
+            <Route path="/services-content" element={<ServicesContentManagement />} />
+            <Route path="/header-footer" element={<HeaderFooterManagement />} />
+            <Route path="/contact" element={<ContactManagement />} />
+            
+            {/* Service Edit Pages */}
+            <Route path="/services/baghouse-field-services" element={<BaghouseFieldServicesEdit />} />
+            <Route path="/services/sheet-metal-ducting" element={<SheetMetalDuctingEdit />} />
+            <Route path="/services/consulting" element={<ConsultingEdit />} />
+            <Route path="/services/spare-parts" element={<SparePartsEdit />} />
+          </Routes>
          </main>
       </div>
     </div>
